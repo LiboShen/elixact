@@ -609,4 +609,31 @@ defmodule Elixact.Schema do
       var!(config) = Map.put(var!(config), :strict, unquote(bool))
     end
   end
+
+  @doc """
+  Sets whether the schema should also produce a struct.
+  When use_struct is true:
+    - defstruct is generated based on fields' definitions
+    - `validate` function will return a struct
+
+  ## Parameters
+
+    * `bool` - Boolean indicating if strict validation should be enabled
+
+  ## Examples
+
+      config do
+        use_struct(true)
+      end
+  """
+  defmacro use_struct(bool) do
+    quote do
+      var!(config) = Map.put(var!(config), :use_struct, unquote(bool))
+
+      defstruct Enum.map(
+                  @fields,
+                  fn {k, _} -> k end
+                )
+    end
+  end
 end

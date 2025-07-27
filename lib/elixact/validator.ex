@@ -24,8 +24,9 @@ defmodule Elixact.Validator do
 
     with :ok <- validate_required_fields(fields, data, path),
          {:ok, validated} <- validate_fields(fields, data, path),
-         :ok <- validate_strict(config, validated, data, path) do
-      {:ok, validated}
+         converted <- convert_to_struct(schema, config, validated, path),
+         :ok <- validate_strict(config, converted, data, path) do
+      {:ok, converted}
     end
   end
 
@@ -63,6 +64,12 @@ defmodule Elixact.Validator do
       end
     end)
   end
+
+  defp convert_to_struct(schema, %{use_struct: true}, validated, _path) do
+    struct!(schema, validated)
+  end
+
+  defp convert_to_struct(_, _, validated, _), do: validated
 
   defp validate_strict(%{strict: true}, validated, original, path) do
     case Map.keys(original) -- Map.keys(validated) do
