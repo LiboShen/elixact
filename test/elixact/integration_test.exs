@@ -278,4 +278,34 @@ defmodule Elixact.IntegrationTest do
       assert schema["properties"]["address"]["$ref"] == "#/definitions/AddressSchema"
     end
   end
+
+  describe "Transforming to a struct" do
+    defmodule StructSchema do
+      use Elixact
+
+      schema do
+        field :name, :string do
+          required()
+        end
+
+        field :age, :integer do
+          optional()
+        end
+
+        config do
+          use_struct(true)
+        end
+      end
+    end
+
+    test "accepts both atom and string keys when enabled" do
+      data = %{
+        name: "John",
+        age: 30
+      }
+
+      assert {:ok, validated} = StructSchema.validate(data)
+      assert is_struct(validated)
+    end
+  end
 end

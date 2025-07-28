@@ -144,6 +144,31 @@ defmodule Types.Email do
 end
 ```
 
+### Struct generation
+```elixir
+defmodule User do
+  use Elixact
+
+  schema do
+    field :name, :string do
+      required()
+    end
+
+    field :age, :integer do
+      optional()
+    end
+
+    config do
+      use_struct(true)
+    end
+  end
+end
+
+validated = User.validate(data)
+is_struct(validate, User)
+# true
+```
+
 ### JSON Schema Generation
 
 ```elixir
