@@ -47,7 +47,7 @@ defmodule Elixact.Type do
       end
 
       # Default implementations that can be overridden
-      def coerce_rule, do: nil
+      def coerce_rule, do: Process.get(make_ref(), nil)
       def custom_rules, do: []
 
       defoverridable coerce_rule: 0, custom_rules: 0
