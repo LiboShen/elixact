@@ -377,6 +377,27 @@ defmodule Elixact.Schema do
   end
 
   @doc """
+  Marks the field as read only.
+
+  This keyword indicates that the value of the instance is managed exclusively by
+  the owning authority, and attempts by an application to modify the value of this
+  property are expected to be ignored or rejected by that owning authority.
+
+  ## Examples
+
+      field :created_at, :integer do
+        read_only()
+      end
+  """
+  defmacro read_only() do
+    quote do
+      var!(field_meta) =
+        var!(field_meta)
+        |> Map.put(:read_only, true)
+    end
+  end
+
+  @doc """
   Sets a single example value for the field.
 
   ## Parameters

@@ -99,7 +99,8 @@ defmodule Elixact.JsonSchema do
   defp convert_field_metadata(field_meta) do
     base = %{
       "description" => field_meta.description,
-      "default" => field_meta.default
+      "default" => field_meta.default,
+      "readOnly" => field_meta.read_only
     }
 
     # Handle examples
