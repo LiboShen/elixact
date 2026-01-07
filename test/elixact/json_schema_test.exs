@@ -22,6 +22,12 @@ defmodule Elixact.JsonSchemaTest do
           examples(["admin", "user"])
           default([])
         end
+
+        field :created_at, :integer do
+          description("Timestamp of user creation.")
+          optional()
+          read_only()
+        end
       end
     end
 
@@ -46,6 +52,11 @@ defmodule Elixact.JsonSchemaTest do
             "description" => "User tags",
             "examples" => ["admin", "user"],
             "default" => []
+          },
+          "created_at" => %{
+            "description" => "Timestamp of user creation.",
+            "type" => "integer",
+            "readOnly" => true
           }
         },
         "required" => ["name"]

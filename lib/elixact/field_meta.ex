@@ -12,6 +12,7 @@ defmodule Elixact.FieldMeta do
     :required,
     :optional,
     :default,
-    :constraints
+    :constraints,
+    :read_only
   ]
 end
